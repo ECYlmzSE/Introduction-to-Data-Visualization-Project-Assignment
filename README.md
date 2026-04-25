@@ -1,121 +1,202 @@
-# AI Asistan Kampusu
+📊 AI DESTEKLİ ÜRÜN ANALİZ SİSTEMİ
 
-<div align="center">
+📌 GENEL BAKIŞ
 
-### Sekilli Sukullu Ogrenci Baslangic Rehberi
+Bu proje, kullanıcıların günlük bilgisayar kullanımını kesmeden yapay zekâ destekli analizler alabilmesini sağlayan masaüstü tabanlı bir sistemdir.
 
-`Local AI + Cloud AI = Daha hizli ogrenme`
+Kullanıcı herhangi bir uygulamada (tarayıcı, PDF, Word, vs.) bir metni seçip F8 tuşuna bastığında, sistem bu metni analiz eder ve bağlama uygun yapay zekâ işlemleri sunar.
 
-[![Ollama](https://img.shields.io/badge/Ollama-Local%20LLM-111827?style=for-the-badge)](https://docs.ollama.com/quickstart)
-[![Gemini 3 Preview](https://img.shields.io/badge/Gemini%203-Preview-0f766e?style=for-the-badge)](https://docs.cloud.google.com/vertex-ai/generative-ai/docs/start/get-started-with-gemini-3)
-[![Google Cloud](https://img.shields.io/badge/Google%20Cloud-Vertex%20AI-1a73e8?style=for-the-badge)](https://docs.cloud.google.com/vertex-ai/generative-ai/docs/start/quickstart)
+Projenin bu versiyonu özellikle ürün analizi üzerine odaklanacak şekilde geliştirilmiştir. Kullanıcı bir ürün adı seçtiğinde sistem:
+- Ürünü değerlendirir.
+- Artı / eksi yönlerini çıkarır.
+- Kullanıcı yorumlarını özetler.
+- Güncel fiyat aralığını tahmin eder.
+- Satın alma tavsiyesi verir.
+Bu sayede sistem, klasik bir metin işleyiciden çıkıp karar destek mekanizmasına dönüşmektedir.
 
-</div>
+🎯 PROJENİN AMACI
 
-```text
- ____  ____     _   _ _____ _   _ _  __      _    ____ ___ _
-|  _ \|  _ \   | | | |  ___| | | | |/ /     / \  / ___|_ _| |
-| | | | |_) |  | | | | |_  | | | | ' /     / _ \ \___ \| || |
-| |_| |  _ <   | |_| |  _| | |_| | . \    / ___ \ ___) | || |___
-|____/|_| \_\   \___/|_|    \___/|_|\_\  /_/   \_\____/___|_____|
-K   K  L      U   U  BBBB   EEEEE         H   H   OOO    SSSS          GGG   EEEEE  L      DDDD   IIIII  N   N           !
-K  K   L      U   U  B   B  E             H   H  O   O  S             G      E      L      D   D    I    NN  N           !
-KKK    L      U   U  BBBB   EEE           HHHHH  O   O   SSS          G  GG  EEE    L      D   D    I    N N N           !
-K  K   L      U   U  B   B  E             H   H  O   O      S         G   G  E      L      D   D    I    N  NN
-K   K  LLLLL   UUU   BBBB   EEEEE         H   H   OOO   SSSS           GGG   EEEEE  LLLLL  DDDD   IIIII  N   N           !
+Bu projenin temel amacı:
+- Kullanıcıdan minimum etkileşim alarak maksimum bilgi üretmek.
+- Metin seçimi üzerinden bağlamı anlayan bir sistem kurmak.
+- Yapay zekâyı günlük kullanım içine entegre etmek.
+
+Klasik kullanımda kullanıcı:
+* Ürün araştırır.
+* Fiyat karşılaştırır.
+* Yorum okur.
+
+Bu sistem ise:
+* Ürünü analiz eder.
+* Özet çıkarır.
+* Fiyat yorumu yapar.
+* Net bir AL / ALMA kararı sunar.
+
+🧠 SİSTEM ÖZELLİKLERİ
+
+🔹 F8 Menü Sistemi 
+Kullanıcı:
+- Herhangi bir metni seçer.
+- F8 tuşuna basar.
+- Mouse konumunda popup menü açılır.
+- Bu menü üzerinden AI işlemleri seçilir.
+
+🔹 Metin İşleme Özellikleri
+Sistem aşağıdaki işlemleri destekler:
+- Gramer düzeltme
+- İngilizce / Türkçe çeviri
+- Metin özetleme
+- Resmileştirme
+- Python kodu üretimi
+- Mail cevabı oluşturma
+
+🔹 🛒 Ürün Analizi (Ana Özellik)
+Kullanıcı bir ürün adı seçtiğinde sistem:
+⭐ 5 üzerinden puan verir.
+👍 Artı yönleri listeler.
+👎 Eksi yönleri çıkarır.
+💬 Kullanıcı yorumlarını özetler.
+💰 Tahmini fiyat aralığı verir.
+📉 Fiyat yorumu yapar.
+✅ AL / ❌ ALMA kararı verir.
+
+Ek olarak sistem:
+- İnternetten veri çeker (DuckDuckGo).
+- Güncel bağlam oluşturur.
+- LLM’e bu veriyi verir.
+
+🔹 🌐 GÜNCEL VERİ KULLANIMI
+Sistem sadece LLM’e bağlı kalmaz.
+Ek olarak:
+- DuckDuckGo üzerinden arama yapar.
+- İlk sonuçlardan bağlam çıkarır.
+- Prompt içine ekler.
+Bu sayede:
+👉 Daha güncel ve gerçekçi analiz yapılır.
+
+🔹 🖥️ POPUP SONUÇ PENCERESİ
+Ürün analizi ve oyun analizi sonuçları:
+- Ayrı bir popup pencerede gösterilir.
+- Scroll desteklidir.
+- Panoya kopyalama özelliği vardır.
+Ayrıca:
+✅ AL → yeşil,
+❌ ALMA → kırmızı,
+renk vurgusu yapılır.
+
+⚙️ GEREKSİNİMLER
+
+Projeyi çalıştırmak için:
+
+1. Python
+Python 3.10+
+
+2. Gerekli Python Kütüphaneleri
+pip install pyperclip pynput pyautogui requests duckduckgo_search
+
+3. Ollama
+Yerel LLM servisi gereklidir.
+Kurulum:
+👉 https://ollama.com
+
+4. Model
+Varsayılan model:
+gemini-3-flash-preview
+
+Alternatif:
+gemma3:1b
+
+Model yüklemek için:
+ollama run gemma3:1b
+
+5. İşletim Sistemi
+Windows önerilir
+(F8 global kısayol ve .bat kullanımı nedeniyle)
+
+🚀 KURULUM
+
+1. Projeyi indir
+git clone <repo_url>
+cd proje
+
+2. Sanal ortam oluştur
+python -m venv .venv
+
+3. Aktif et
+.venv\Scripts\activate
+
+4. Paketleri yükle
+pip install -r requirements.txt
+
+5. Ollama'yı başlat
+ollama serve
+
+6. Programı çalıştır
+python main.pyw
+
+veya:
+
+BASLAT.bat
+
+🧑‍💻 KULLANIM
+
+1. Herhangi bir metni seç
+2. F8 tuşuna bas
+3. Menüden 🛒 Ürün Analizi seç
+4. Sonucu popup pencerede gör
+
+🏗️ SİSTEM MİMARİSİ
+
+```mermaid
+flowchart TD
+
+A[Kullanıcı metni seçer] --> B[F8 tuşuna basar]
+
+B --> C[Metin panoya kopyalanır]
+C --> D{Metin var mı?}
+
+D -- Hayır --> E[Uyarı mesajı göster]
+D -- Evet --> F[İşlem menüsü açılır]
+
+F --> G[Kullanıcı işlem seçer]
+
+G --> H{Seçilen işlem}
+
+H -->|Ürün analizi| I[İnternetten bilgi alınır]
+I --> J[Ek bilgi hazırlanır]
+
+H -->|Diğer işlemler| K[Direkt işlem hazırlanır]
+
+J --> L[Prompt oluşturulur]
+K --> L
+
+L --> M[AI modele gönderilir]
+
+M --> N[Sonuç alınır ve düzenlenir]
+
+N --> O{Gösterim türü}
+
+O -->|Popup| P[Sonuç pencerede gösterilir]
+O -->|Yazı içine| Q[Sonuç yapıştırılır]
+
+P --> R[AL / ALMA renklendirme]
+
+Q --> S[İşlem tamamlandı]
+R --> S
 ```
 
-> [!IMPORTANT]
-> Gemini 3 preview "indirilen bir program" degil, Google Cloud Vertex AI uzerinden API ile kullanilan bir model ailesidir.
+🎬 Örnek Senaryo
 
-## 0) Ogrenci Icin Tek Adim
+Kullanıcı bir ürün ismini seçer ve F8'e basar:
 
-1. Ollama'yi bir kez kur: https://docs.ollama.com/windows models kısmına gir https://ollama.com/library  ve gemini 3 preview cloud modelinini çalıştır yetki giriş gerekecek. ollama artık lokalinde bir LLM olarak sana hizmet vermeye hazır .
+![Örnek Senaryo](images/ornek_senaryo.png)
 
-2. Bu klasorde sadece `BASLAT.bat` calistir.
-3. Hepsi bu kadar.
+🏁 SONUÇ
 
-> [!IMPORTANT]
-> Ogrenci tarafinda ekstra komut gerekmez. `BASLAT.bat` gerekli durumda `kurulum.bat` dosyasini otomatik cagirir ve ortami kendi kurar.
+Bu proje:
+- Yapay zekâyı günlük kullanım içine entegre eder.
+- Minimum etkileşimle maksimum bilgi üretir.
+- Pratik ve genişletilebilir bir sistemdir.
 
-## 1) BASLAT Calisinca Ne Oluyor?
-
-1. `BASLAT.bat` önce `.venv` var mi kontrol eder.
-2. Yoksa `kurulum.bat` otomatik calisir; Python 3 kontrolu, `.venv` olusturma, `pip` guncelleme ve `requirements.txt` paket kurulumu yapilir.
-3. Sonra `main.pyw` arka planda acilir.
-4. Uygulama varsayilan olarak `gemma3:1b` modeliyle Ollama'ya istek atar.
-
-Ollama API varsayilan adresi: `http://localhost:11434`
-
-## 2) Google Cloud Gemini 3 Preview (Vertex AI)
-
-### Once gerekli olanlar
-- Google Cloud projesi
-- Billing acik olmali
-- Vertex AI API aktif olmali
-- `gcloud` CLI kurulu olmali
-
-### gcloud giris ve kimlik
-
-```powershell
-gcloud init
-gcloud auth application-default login
-```
-
-### Proje ve API ayari
-
-```powershell
-gcloud config set project YOUR_PROJECT_ID
-gcloud services enable aiplatform.googleapis.com
-```
-
-### Python SDK kurulumu
-
-```powershell
-pip install --upgrade google-genai
-```
-
-### Ortam degiskenleri (PowerShell)
-
-```powershell
-$env:GOOGLE_CLOUD_PROJECT="YOUR_PROJECT_ID"
-$env:GOOGLE_CLOUD_LOCATION="global"
-$env:GOOGLE_GENAI_USE_VERTEXAI="True"
-```
-
-### Ilk Gemini 3 Preview istegi
-
-```python
-from google import genai
-
-client = genai.Client()
-
-response = client.models.generate_content(
-    model="gemini-3-flash-preview",
-    contents="Merhaba! Bana 3 maddede Python'da for dongusunu anlat.",
-)
-
-print(response.text)
-```
-
-
-## 3) Mini Ogrenci Challenge (Opsiyonel)
-1. Terminalde su komutu yaz: `ollama run gemini-3-flash-preview`
-2. Sonra Ollama'da gecerli bir modelle sor: `ollama run gemma3:1b`
-3. Ayni soruyu Gemini 3 preview ile sor.
-4. Cevaplari hiz, detay ve dogruluk acisindan karsilastir.
-
-## 4) Hata Cozme Kisa Notlari
-- `403` alirsan: Billing, Vertex AI API ve IAM rol (`roles/aiplatform.user`) kontrol et.
-- `401` alirsan: `gcloud auth application-default login` komutunu yeniden calistir.
-- `ollama model not found` alirsan once su komutu calistir: `ollama run gemma3:1b`
-- `Model not found` alirsan: model ID'yi kontrol et (`gemini-3-flash-preview`, `gemini-3-pro-preview`, `gemini-3.1-pro-preview`).
-
-## Kaynaklar (Resmi)
-- Ollama Quickstart: https://docs.ollama.com/quickstart
-- Ollama Windows: https://docs.ollama.com/windows
-- Ollama Linux: https://docs.ollama.com/linux
-- Vertex AI Quickstart: https://docs.cloud.google.com/vertex-ai/generative-ai/docs/start/quickstart
-- Gemini 3 Baslangic: https://docs.cloud.google.com/vertex-ai/generative-ai/docs/start/get-started-with-gemini-3
-- Gemini 3 Pro Model: https://docs.cloud.google.com/vertex-ai/generative-ai/docs/models/gemini/3-pro
-- Gemini 3 Flash Model: https://docs.cloud.google.com/vertex-ai/generative-ai/docs/models/gemini/3-flash
+Özellikle ürün analizi özelliği ile:
+👉 Kullanıcıya doğrudan karar desteği sunar.

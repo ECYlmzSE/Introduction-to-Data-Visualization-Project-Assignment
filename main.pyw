@@ -7,7 +7,8 @@ import time
 import threading
 import requests
 import queue
-
+from duckduckgo_search import DDGS
+from datetime import datetime
 
 # --- AYARLAR ---
 OLLAMA_URL = "http://localhost:11434/api/generate"
@@ -47,6 +48,46 @@ ISLEMLER = {
         "Kurallar: Kesin bilmediğin puanı uydurma, onun yerine 'bilgi yok' yaz. "
         "Yorumu skorlarla tutarlı kur."
     ),
+    "🛒 Ürün Analizi": (
+        "Seçili metni bir ürün adı olarak ele al."
+
+        "Eğer ürün yeni veya piyasada yoksa:"
+        "- ""Henüz piyasada yok"" yaz"
+        "- Tahmini fiyat ver (segmentine göre)"
+
+        "Aşağıdaki formatta cevap ver:"
+
+        "1) Ürün: <ad>"
+
+        "2) Puan: <5 üzerinden>"
+
+        "3) Artılar:"
+        "- ..."
+
+        "4) Eksiler:"
+        "- ..."
+
+        "5) Kullanıcı Yorumu Özeti:"
+        "- ..."
+
+        "6) Tahmini Fiyat:"
+        "- İnternetten gelen bilgileri öncelikli kullan"
+        "- Eğer çelişki varsa GENİŞ ARALIK ver"
+        "- Örn: 40.000 - 65.000 TL"
+
+        "7) Fiyat Yorumu:"
+        "- Ucuz / Orta / Pahalı / F/P"
+
+        "8) Tavsiye:"
+        "- Mantıklı alım fiyatı: <değer>"
+        "- Karar: AL / ALMA"
+
+        "KURALLAR:"
+        "- Dar fiyat verme"
+        "- Güncel bilgiyi öncelikli kullan"
+        "- Emin değilsen geniş aralık ver"
+        "- Saçma eski fiyat yazma"
+    ),
 }
 
 
@@ -81,7 +122,7 @@ def get_available_text_model():
 
 
 def ollama_cevap_al(prompt):
-    """Ollama API'den cevap al."""
+    """"Ollama API'den cevap al."""
     try:
         aktif_model = get_available_text_model()
         payload = {
@@ -155,7 +196,7 @@ def secili_metni_kopyala(max_deneme=4):
 
 
 def pencere_modunda_gosterilsin_mi(komut_adi):
-    return "PS5 Oyun Skor" in komut_adi
+    return "PS5 Oyun Skor" in komut_adi or "Ürün Analizi" in komut_adi
 
 
 def sonuc_penceresi_goster(baslik, icerik):
@@ -164,8 +205,13 @@ def sonuc_penceresi_goster(baslik, icerik):
     pencere.geometry("780x520")
     pencere.minsize(520, 320)
     pencere.attributes("-topmost", True)
+    bg_color = "#1f1f1f"
 
-    frame = tk.Frame(pencere, bg="#1f1f1f")
+    if "ALMA" in icerik:
+        bg_color = "#3a1f1f"
+    elif "AL" in icerik:
+        bg_color = "#1f3a1f"
+    frame = tk.Frame(pencere, bg=bg_color) 
     frame.pack(fill="both", expand=True, padx=10, pady=10)
 
     text_alani = tk.Text(
@@ -185,6 +231,23 @@ def sonuc_penceresi_goster(baslik, icerik):
     kaydirma.pack(side="right", fill="y")
 
     text_alani.insert("1.0", icerik)
+
+# AL / ALMA renklendirme
+    start = None
+    if "ALMA" in icerik:
+        start = text_alani.search("ALMA", "1.0", tk.END)
+        if start:
+            end = f"{start}+4c"
+            text_alani.tag_add("red", start, end)
+            text_alani.tag_config("red", foreground="red")
+
+    elif "AL" in icerik:
+        start = text_alani.search("AL", "1.0", tk.END)
+        if start:
+            end = f"{start}+2c"
+            text_alani.tag_add("green", start, end)
+            text_alani.tag_config("green", foreground="lightgreen")
+
     text_alani.config(state="disabled")
 
     alt_frame = tk.Frame(pencere, bg="#1f1f1f")
@@ -222,10 +285,48 @@ def sonuc_penceresi_goster(baslik, icerik):
     pencere.focus_force()
     pencere.lift()
 
+def internette_ara(sorgu):
+    """DuckDuckGo üzerinden arama yap ve sonuçları metin olarak dön."""
+    try:
+        print(f"🔍 İnternette araştırılıyor: {sorgu}")
+        with DDGS() as ddgs:
+            results = list(ddgs.text(sorgu, max_results=5))
+            if not results:
+                return "İnternet araması sonuç vermedi."
+            
+            baglam = "\n".join([f"- {r['title']}: {r['body']}" for r in results])
+            return baglam
+    except Exception as e:
+        print(f"⚠️ Arama hatası: {e}")
+        return "Arama yapılamadı, mevcut bilgilerini kullan."
 
 def islemi_yap(komut_adi, secili_metin):
-    prompt_emri = ISLEMLER[komut_adi]
-    full_prompt = f"{prompt_emri}:\n\n'{secili_metin}'"
+    if komut_adi in ISLEMLER:
+        prompt_emri = ISLEMLER[komut_adi]
+    else:
+        prompt_emri = komut_adi  # direkt prompt
+
+    ek_bilgi = ""
+    if komut_adi in ["🛒 Ürün Analizi", "🎮 PS5 Oyun Skor + Acımasız Yorum"]:
+        # Kullanıcıya bir bilgi mesajı yazdırabiliriz
+        print("🌐 Güncel veriler için internete bağlanılıyor...")
+        ek_bilgi = internette_ara(secili_metin)
+
+    # 2026 yılına ve güncel verilere göre promptu şekillendir
+    aylar = {
+    1: "Ocak", 2: "Şubat", 3: "Mart", 4: "Nisan",
+    5: "Mayıs", 6: "Haziran", 7: "Temmuz", 8: "Ağustos",
+    9: "Eylül", 10: "Ekim", 11: "Kasım", 12: "Aralık"
+   }
+
+    now = datetime.now()
+    bugun = f"{now.day} {aylar[now.month]} {now.year}"
+    full_prompt = (
+        f"BUGÜNÜN TARİHİ: {bugun}\n"
+        f"İNTERNETTEN GELEN GÜNCEL BİLGİLER:\n{ek_bilgi}\n\n"
+        f"TALİMAT: {prompt_emri}\n\n"
+        f"ANALİZ EDİLECEK ÜRÜN/METİN: '{secili_metin}'"
+    )
 
     print(f"🤖 İşlem: {komut_adi}")
     print("⏳ Ollama ile işleniyor...")
@@ -241,7 +342,7 @@ def islemi_yap(komut_adi, secili_metin):
 
     if pencere_modunda_gosterilsin_mi(komut_adi):
         gui_queue.put((sonuc_penceresi_goster, (komut_adi, sonuc)))
-        print("âœ… SonuÃ§ ayrÄ± pencerede gÃ¶sterildi.")
+        print("Sonuç ayrı pencerede gösterildi.")
         return
 
     time.sleep(0.2)
@@ -296,13 +397,14 @@ def menu_goster():
             threading.Thread(
                 target=islemi_yap, args=(k_adi, s_metin), daemon=True
             ).start()
-
         return komut_calistir
 
+    # NORMAL İŞLEMLER
     for baslik in ISLEMLER.keys():
         menu.add_command(label=baslik, command=komut_olustur(baslik, secili_metin))
 
     menu.add_separator()
+
     menu.add_command(label="❌ İptal", command=lambda: None)
 
     try:

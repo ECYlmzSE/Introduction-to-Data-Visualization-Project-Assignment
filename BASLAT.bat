@@ -2,16 +2,22 @@
 setlocal
 cd /d "%~dp0"
 
-if not exist ".venv\Scripts\pythonw.exe" (
-    echo [INFO] Sanal ortam bulunamadi. Ilk kurulum baslatiliyor...
+echo [INFO] Baslatiliyor...
+
+if not exist ".venv\Scripts\python.exe" (
+    echo [INFO] Sanal ortam yok. Kurulum baslatiliyor...
     call "%~dp0kurulum.bat"
     if not %errorlevel%==0 (
-        echo [HATA] Kurulum basarisiz. Program baslatilamadi.
+        echo [HATA] Kurulum basarisiz.
         pause
         exit /b 1
     )
 )
 
+echo [INFO] Program calisiyor...
+
 call ".venv\Scripts\activate.bat"
-start "AI Asistan" /B ".venv\Scripts\pythonw.exe" "%~dp0main.pyw"
-exit /b 0
+
+python main.pyw
+
+pause
