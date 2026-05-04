@@ -3,9 +3,17 @@
 🎬 Örnek Kullanım
 
 Kullanıcı bir ürün ismini seçer ve F8'e basar:
-![Menü Ekranı](images/menu.png)
+
+<p align="center">
+  <img src="images/menu.png" width="700"/>
+</p>
+
+<br>
 Açılan menüden 🛒 Ürün Analizi seçilir:
-![Örnek Senaryo](images/ornek_senaryo.png)
+
+<p align="center">
+  <img src="images/ornek_senaryo.png" width="700"/>
+</p>
 
 📌 GENEL BAKIŞ
 
