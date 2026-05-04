@@ -1,5 +1,12 @@
 📊 AI DESTEKLİ ÜRÜN ANALİZ SİSTEMİ
 
+🎬 Örnek Kullanım
+
+Kullanıcı bir ürün ismini seçer ve F8'e basar:
+![Menü Ekranı](images/menu.png)
+Açılan menüden 🛒 Ürün Analizi seçilir:
+![Örnek Senaryo](images/ornek_senaryo.png)
+
 📌 GENEL BAKIŞ
 
 Bu proje, kullanıcıların günlük bilgisayar kullanımını kesmeden yapay zekâ destekli analizler alabilmesini sağlayan masaüstü tabanlı bir sistemdir.
@@ -185,11 +192,7 @@ Q --> S[İşlem tamamlandı]
 R --> S
 ```
 
-🎬 Örnek Senaryo
 
-Kullanıcı bir ürün ismini seçer ve F8'e basar:
-
-![Örnek Senaryo](images/ornek_senaryo.png)
 
 🏁 SONUÇ
 
